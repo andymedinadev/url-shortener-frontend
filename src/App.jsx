@@ -8,7 +8,25 @@ function App () {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const handleSubmit = async () => {
+  const isValidUrl = (urlString) => {
+    if (!urlString) return false
+
+    const regex = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(:\d+)?(\/[^\s]*)?$/i
+
+    return regex.test(urlString)
+  }
+
+  const shortenUrl = async () => {
+    if (!longUrl) {
+      setError('URL required')
+      return
+    }
+
+    if (!isValidUrl(longUrl)) {
+      setError('URL invalid')
+      return
+    }
+
     setLoading(true)
     setError(null)
 
@@ -32,7 +50,6 @@ function App () {
         setError(data.message || 'Something went wrong')
       }
     } catch (err) {
-      console.error(err)
       setError('Error connecting to server')
     } finally {
       setLoading(false)
@@ -51,24 +68,34 @@ function App () {
 
         {/* Input URL */}
         <div className='mb-8 w-full rounded-lg bg-zinc-800 p-3'>
-          <TextInput placeholder='Long URL here' value={longUrl} onChange={(e) => setLongUrl(e.target.value)} />
+          <TextInput
+            placeholder='Long URL here'
+            value={longUrl}
+            onChange={(e) => setLongUrl(e.target.value.trim())}
+          />
         </div>
 
         {/* Action Button */}
-        <button onClick={handleSubmit} className='mb-8 rounded-lg bg-[#27272a] px-6 py-2 text-zinc-300 hover:cursor-pointer hover:bg-zinc-600'>
+        <button
+          onClick={shortenUrl}
+          className='mb-8 rounded-lg bg-[#27272a] px-6 py-2 text-zinc-300 hover:cursor-pointer hover:bg-zinc-600'
+        >
           {loading ? 'Shortening...' : 'Shorten'}
         </button>
 
         {/* Short URL Result */}
         {shortUrl && (
           <div className='flex h-16 w-full items-center justify-between rounded-lg bg-amber-900/80 p-3'>
-            <p className='mx-auto truncate text-amber-200'>{shortUrl || '••••'}</p>
+            <p className='mx-auto truncate text-amber-200'>{shortUrl}</p>
           </div>
         )}
 
         {/* ERROR */}
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-
+        {error && (
+          <p style={{ color: 'red' }} onClick={() => setError(null)}>
+            {error}
+          </p>
+        )}
       </div>
     </div>
   )
