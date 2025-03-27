@@ -1,3 +1,5 @@
+import TextInput from './components/TextInput'
+
 function App () {
   return (
     <div className='flex flex-col items-center bg-zinc-900'>
@@ -11,7 +13,8 @@ function App () {
 
         {/* Input URL */}
         <div className='mb-8 w-full rounded-lg bg-zinc-800 p-3'>
-          <input className='flex h-10 w-full rounded-md border-none bg-transparent px-3 py-2 text-zinc-300 placeholder:text-zinc-600 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50' />
+          <TextInput placeholder='Long URL here' />
+
         </div>
 
         {/* Action Button */}
