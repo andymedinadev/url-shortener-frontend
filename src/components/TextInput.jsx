@@ -9,5 +9,3 @@ export function TextInput ({ placeholder, value, onChange, disabled }) {
     />
   )
 }
-
-export default TextInput

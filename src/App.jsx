@@ -1,6 +1,5 @@
 import { useState } from 'react'
-
-import TextInput from './components/TextInput'
+import { ErrorMessage, TextInput } from './components'
 
 function App () {
   const [longUrl, setLongUrl] = useState('')
@@ -92,9 +91,9 @@ function App () {
 
         {/* ERROR */}
         {error && (
-          <p style={{ color: 'red' }} onClick={() => setError(null)}>
-            {error}
-          </p>
+          <div onClick={() => setError(null)} className='w-full cursor-pointer'>
+            <ErrorMessage error={error} />
+          </div>
         )}
       </div>
     </div>
